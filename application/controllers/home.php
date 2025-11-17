@@ -24,7 +24,8 @@ class home extends CI_Controller {
         $this->load->model('Bank_consultation');
     }
 	public function index()
-	{$this->load->model('Bank_consultation');
+	{
+		$this->load->model('Bank_consultation');
     
     $consulta = $this->Bank_consultation->get_single('usuarios','id',1);
 
@@ -32,4 +33,5 @@ class home extends CI_Controller {
     $this->load->view('home', $data);
 
 	}
+
 }

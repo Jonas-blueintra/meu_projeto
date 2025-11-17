@@ -1,101 +1,110 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-?><!DOCTYPE html>
-<html lang="en">
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+
 <head>
-	<meta charset="utf-8">
-	<title>Welcome to CodeIgniter</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login - Sistema</title>
 
-	<style type="text/css">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-	::selection { background-color: #E13300; color: white; }
-	::-moz-selection { background-color: #E13300; color: white; }
+  <!-- Bootstrap Ícones -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
-	body {
-		background-color: #ffffffff;
-		margin: 40px;
-		font: 13px/20px normal Helvetica, Arial, sans-serif;
-		color: #000000ff;
-	}
+  <style>
+    /* Ajuste de fade suave */
+    #mainContainer {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: .8s;
+    }
 
-	a {
-		color: #003399;
-		background-color: transparent;
-		font-weight: normal;
-		text-decoration: none;
-	}
+    #mainContainer.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-	a:hover {
-		color: #97310e;
-	}
-
-	h1 {
-		color: #444;
-		background-color: transparent;
-		border-bottom: 1px solid #D0D0D0;
-		font-size: 19px;
-		font-weight: normal;
-		margin: 0 0 14px 0;
-		padding: 14px 15px 10px 15px;
-	}
-
-	code {
-		font-family: Consolas, Monaco, Courier New, Courier, monospace;
-		font-size: 12px;
-		background-color: #f9f9f9;
-		border: 1px solid #D0D0D0;
-		color: #a6a6a6ff;
-		display: block;
-		margin: 14px 0 14px 0;
-		padding: 12px 10px 12px 10px;
-	}
-
-	#body {
-		margin: 0 15px 0 15px;
-		min-height: 96px;
-	}
-
-	p {
-		margin: 0 0 10px;
-		padding:0;
-	}
-
-	p.footer {
-		text-align: right;
-		font-size: 11px;
-		border-top: 1px solid #D0D0D0;
-		line-height: 32px;
-		padding: 0 10px 0 10px;
-		margin: 20px 0 0 0;
-	}
-
-	#container {
-		margin: 10px;
-		border: 1px solid #D0D0D0;
-		box-shadow: 0 0 8px #D0D0D0;
-	}
-	</style>
+    /* Efeito bonito no ícone */
+    .icon-glow {
+      box-shadow: 0 0 18px rgba(255, 255, 255, 0.5);
+    }
+  </style>
 </head>
-<body>
 
-<div id="container">
-	<h1>Welcome to CodeIgniter!</h1>
-<pre><?php print_r($consulta); ?></pre>
+<body class="bg-primary bg-gradient">
 
-	<div id="body">
-		<p>The page you are looking at is being generated dynamically by CodeIgniter.</p>
+  <div class="container vh-100 d-flex justify-content-center align-items-center" id="mainContainer">
+    <div class="card shadow-lg border-0 rounded-4 p-2" style="width: 100%; max-width: 420px;">
+      <div class="card-body p-4">
 
-		<p>If you would like to edit this page you'll find it located at:</p>
-		<code>application/views/welcome_message.php</code>
+        <div class="text-center mb-4">
+          <div
+            class="bg-primary bg-gradient rounded-circle d-inline-flex justify-content-center align-items-center icon-glow"
+            style="width: 85px; height: 85px;">
+            <i class="bi bi-person-fill text-white display-5"></i>
+          </div>
 
-		<p>The corresponding controller for this page is found at:</p>
-		<code>application/controllers/Welcome.php</code>
+          <h3 class="mt-3 fw-bold">Bem-vindo</h3>
+          <p class="text-muted">Faça login para continuar</p>
+        </div>
+        <form id="loginForm" action="<?php echo base_url('login/validar_login') ?>" >
+          <div class="mb-3">
+            <label class="form-label">E-mail</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+              <input type="text" id="login" name="email" class="form-control" placeholder="Digite seu e-mail">
+            </div>
+          </div>
 
-		<p>If you are exploring CodeIgniter for the very first time, you should start by reading the <a href="userguide3/">User Guide</a>.</p>
-	</div>
+          <div class="mb-3">
+            <label class="form-label">Senha</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-lock"></i></span>
+              <input type="password" id="senha" name="senha" class="form-control" placeholder="Digite sua senha" required>
+              <button class="btn btn-outline-secondary" type="button" id="toggleSenha"><i
+                  class="bi bi-eye"></i></button>
+            </div>
+          </div>
 
-	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></p>
-</div>
+          <!-- BOTÃO LOGIN -->
+          <div class="d-grid mb-3">
+            <button type="submit" id="btnLogin" class="btn btn-light text-primary fw-bold btn-lg rounded-3 shadow-sm">
+              <span id="btnText">Entrar</span>
+              <div id="btnSpinner" class="spinner-border spinner-border-sm d-none ms-2"></div>
+            </button>
+          </div>
 
+          <!-- BOTÃO ESQUECEU SENHA -->
+          <div class="d-flex gap-2">
+            <div class="d-grid mb-2 ">
+              <a href="<?php echo base_url('login/recuperar_senha') ?>" class="btn  btn-light text-primary   ">
+                <i class="bi bi-key"></i> Esqueceu a senha?
+              </a>
+            </div>
+
+            <!-- BOTÃO CADASTRAR NOVO USUÁRIO -->
+            <div class="d-grid">
+              <a href="<?php echo base_url('login/primeiro_acesso'); ?>" class="btn btn-light text-primary">
+                <i class="bi bi-person-plus"></i> Primeiro Acesso
+              </a>
+            </div>
+          </div>
+        </form>
+
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <
+<?php $this->load->view('links_style\links_js') ?>
 </body>
+
 </html>
