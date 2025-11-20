@@ -14,7 +14,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
 
 
-  <?php $this->load->view('links_style\links_css') ?>
+  <?php $this->load->view('links_style_login\links_css') ?>
 </head>
 
 <body class="body_usuario">

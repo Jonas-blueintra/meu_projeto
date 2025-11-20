@@ -32,17 +32,19 @@
             margin-bottom: 15px;
         }
     </style>
+  <?php $this->load->view('links_style_login\links_css') ?>
+
 </head>
-<body>
+<body class="body_recuperar" >
 
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-5">
 
-            <div class="card shadow-sm">
+            <div class="card _recuperar shadow-sm">
 
                 <div class="text-center">
-                    <img src="<?= base_url('assets/img/logo.png') ?>" class="logo" alt="Logo">
+                    <img src="<?= base_url('assets/img/logo.png') ?>" class="logo_recuperar" alt="Logo">
                     <h4 class="mb-3">Recuperar Senha</h4>
                     <p class="text-muted">
                         Informe seu e-mail para enviarmos o link de redefinição.
@@ -60,7 +62,7 @@
                                required>
                     </div>
 
-                    <button type="submit" class="btn btn-primary mt-3">
+                    <button type="submit" class="btn btn-primary botao_enviar mt-3">
                         Enviar link de recuperação
                     </button>
 

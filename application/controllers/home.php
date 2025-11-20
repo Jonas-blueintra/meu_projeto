@@ -25,13 +25,7 @@ class home extends CI_Controller {
     }
 	public function index()
 	{
-		$this->load->model('Bank_consultation');
     
-    $consulta = $this->Bank_consultation->get_single('usuarios','id',1);
-
-    $data['consulta'] = $consulta;
-    $this->load->view('home', $data);
-
 	}
 
 }
