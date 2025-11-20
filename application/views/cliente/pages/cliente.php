@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <?php $this->load->view('links_paginas\link_cliente_home') ?>
+  <?php $this->load->view('links_paginas/link_cliente_home') ?>
    
     <style>
       
@@ -27,7 +27,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </style>
 </head>
 
-<body class = "body_cliente_home">
+<body class="body_cliente_home">
 
     <!-- menu -->
    <?php $this->load->view('cliente/includes/menu'); 
