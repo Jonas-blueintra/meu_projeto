@@ -11,6 +11,6 @@ class home extends CI_Controller {
 
     public function index()
     {
-        $this->load->view('admin\pages\home');
+        $this->load->view('admin/pages/home');
     }
 }
