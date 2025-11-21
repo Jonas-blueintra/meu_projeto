@@ -30,7 +30,8 @@ class Crud extends CI_Model
         }
 
         if ($usuario->senha != $senha) {
-            return false; // senha incorreta
+            $mensag = "Senha inválida";
+            return Result::error($mensag); // senha incorreta
         }
         $mensag = 'Login autorizado';
         // Criar entity
@@ -45,6 +46,7 @@ class Crud extends CI_Model
             $usuario->endereco,
             $usuario->tipo,
             $usuario->status
-        ),$mensag);
+        ),$mensag,
+    );
     }
 }

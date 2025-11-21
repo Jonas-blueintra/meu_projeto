@@ -7,7 +7,6 @@ class Login extends CI_Controller
     {
         parent::__construct();
         $this->load->library('form_validation');
-        $this->load->model('Crud');
 
     }
 	public function index()
@@ -46,7 +45,8 @@ class Login extends CI_Controller
             $email = $dados_form['email'];
             $senha = $dados_form['senha'];
 
-             $result = $this->Crud->Login($email,$senha);
+             $result = $this->crud->Login($email,$senha);
+
 
             if ($result->susses == false) {
                 $output = $this->response($result->susses,$result->message,$result->data);
@@ -78,7 +78,9 @@ class Login extends CI_Controller
         $this->session->set_userdata([
             'logado' => true,
             'user_id' => $result->data->id,
-            'tipo' => $result->data->tipo
+            'tipo' => $result->data->tipo,
+            'nome' => $result->data->nome,
+            'foto' =>$result->data->foto,
          ]);
 					
        $output = $this->response($result->susses,$result->message,$result->data,$redirect);
@@ -98,6 +100,13 @@ private function response($succes,$mensag = "",$data = null,$redirect = null)
         ,
     ];
     return $output;
+}
+public function logout()
+{
+    $this->session->sess_destroy();
+    $this->output->set_header('Cache-Control: no-cache, must-revalidate');
+    $this->output->set_header('Pragma: no-cache');
+    redirect('login');
 }
 
 

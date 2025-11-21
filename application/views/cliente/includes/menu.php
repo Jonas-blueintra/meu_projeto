@@ -29,11 +29,11 @@
                         <a class="nav-link dropdown-toggle d-flex align-items-center"
                             href="#" role="button" data-bs-toggle="dropdown">
 
-                            <img src="https://cdn-icons-png.flaticon.com/512/666/666201.png"
+                            <img src="<?php echo $this->session->userdata('foto'); ?>"
                                 width="35" height="35" class="rounded-circle me-2">
 
                             <span class="fw-semibold">
-                                <?= $this->session->userdata('nome'); ?>
+                                <?php echo $this->session->userdata('nome'); ?>
                             </span>
                         </a>
 
@@ -45,7 +45,7 @@
 
                             <li><hr class="dropdown-divider"></li>
 
-                            <li><a class="dropdown-item text-danger" href="<?= base_url('login/logout'); ?>"><i class="bi bi-box-arrow-right"></i> Sair</a></li>
+                            <li><a class="dropdown-item text-danger" href="<?= base_url('Login/logout'); ?>"><i class="bi bi-box-arrow-right"></i> Sair</a></li>
 
                         </ul>
 
