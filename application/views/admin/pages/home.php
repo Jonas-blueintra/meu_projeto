@@ -138,6 +138,137 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         }
     </style>
+    <!-- <style>
+
+body {
+    background: linear-gradient(135deg, #6366f1, #ec4899, #10b981, #818cf8);
+    background-size: 350% 350%;
+    animation: gradientMove 14s ease infinite;
+    overflow-x: hidden;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+#sidebar {
+    width: 260px;
+    height: 100vh;
+    background: rgba(17, 24, 39, 0.75);
+    backdrop-filter: blur(12px);
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 20px 0;
+    transition: 0.3s;
+    border-right: 1px solid rgba(255,255,255,0.18);
+    z-index: 9999;
+}
+
+#sidebar a {
+    display: block;
+    padding: 14px 25px;
+    color: #f3f4f6;
+    font-size: 15px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+#sidebar a:hover {
+    background: rgba(255,255,255,0.10);
+    padding-left: 35px;
+}
+
+#sidebar h4 {
+    color: #fff;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+#content {
+    margin-left: 260px;
+    padding: 30px;
+    transition: 0.3s;
+}
+
+.card-dashboard {
+    border: none;
+    border-radius: 16px;
+    padding: 25px;
+    color: #fff;
+    transition: 0.3s;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.card-dashboard:hover {
+    transform: translateY(-6px);
+}
+
+.bg1 {
+    background: linear-gradient(135deg, #6366f1, #818cf8);
+}
+
+.bg2 {
+    background: linear-gradient(135deg, #ec4899, #f472b6);
+}
+
+.bg3 {
+    background: linear-gradient(135deg, #10b981, #34d399);
+}
+
+.fade-in {
+    animation: fadeIn 0.6s ease forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+#mobile-menu {
+    display: none;
+    background: rgba(17, 24, 39, 0.85);
+    padding: 10px 15px;
+    z-index: 99999;
+    position: relative;
+    backdrop-filter: blur(10px);
+}
+
+#mobile-menu button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 26px;
+}
+
+@media(max-width: 768px) {
+    #sidebar {
+        left: -260px;
+    }
+
+    #sidebar.active {
+        left: 0;
+    }
+
+    #content {
+        margin-left: 0;
+    }
+
+    #mobile-menu {
+        display: block;
+    }
+}
+
+</style> -->
+
 </head>
 
 <body>
@@ -148,15 +279,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </div>
 
     <!-- MENU LATERAL -->
-    <div id="sidebar">
-        <h4>Admin Salão</h4>
-        <a href="#" onclick="loadPage('dashboard')"><i class="bi bi-speedometer2"></i> Dashboard</a>
-        <a href="#" onclick="loadPage('servicos')"><i class="bi bi-scissors"></i> Serviços</a>
-        <a href="#" onclick="loadPage('agendamentos')"><i class="bi bi-calendar-check"></i> Agendamentos</a>
-        <a href="#" onclick="loadPage('clientes')"><i class="bi bi-people"></i> Clientes</a>
-        <a href="#" onclick="loadPage('config')"><i class="bi bi-gear"></i> Configurações</a>
-        <a href="#"><i class="bi bi-box-arrow-right"></i> Sair</a>
-    </div>
+   <?php $this->load->view('admin/includes/menu'); ?>
+   
 
     <!-- CONTEÚDO -->
     <div id="content">
@@ -176,7 +300,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="card-dashboard bg2 fade-in">
                         <h4>Agendamentos</h4>
                         <p>Confirme e visualize horários marcados.</p>
-                        <button class="btn btn-light btn-sm" onclick="loadPage('agendamentos')">Ver
+                        <button class="btn btn-light btn-sm" onclick="loadPage('agendamento')">Ver
                             agendamentos</button>
                     </div>
                 </div>
@@ -200,136 +324,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             sidebar.classList.toggle("active");
         });
 
-        // Carregar páginas internas sem recarregar o site
+        
         function loadPage(page) {
-            let html = "";
+            fetch("<?= base_url('admin/home/page/'); ?>" + page)
 
-            switch (page) {
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("content").innerHTML = `
+                <div id="mainPage" class="fade-in">${data}</div>
+            `;
+        })
+        .catch(err => console.error("Erro ao carregar página:", err));
+}
 
-                case "servicos":
-                    html = `
-                    <h3 class="mb-4 fade-in">Gerenciar Serviços</h3>
-                    <button class="btn btn-primary mb-3"><i class="bi bi-plus-circle"></i> Novo Serviço</button>
-
-                    <div class="table-responsive fade-in">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Serviço</th>
-                                    <th>Preço</th>
-                                    <th>Duração</th>
-                                    <th>Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Corte Feminino</td>
-                                    <td>R$ 45,00</td>
-                                    <td>40 min</td>
-                                    <td>
-                                        <button class="btn btn-warning btn-sm">Editar</button>
-                                        <button class="btn btn-danger btn-sm">Excluir</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Manicure</td>
-                                    <td>R$ 25,00</td>
-                                    <td>25 min</td>
-                                    <td>
-                                        <button class="btn btn-warning btn-sm">Editar</button>
-                                        <button class="btn btn-danger btn-sm">Excluir</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                `;
-                    break;
-
-                case "agendamentos":
-                    html = `
-                    <h3 class="mb-4 fade-in">Agendamentos</h3>
-
-                    <div class="table-responsive fade-in">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Cliente</th>
-                                    <th>Serviço</th>
-                                    <th>Data</th>
-                                    <th>Status</th>
-                                    <th>Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Ana Souza</td>
-                                    <td>Escova</td>
-                                    <td>20/11/2025 - 15:00</td>
-                                    <td><span class="badge bg-warning">Pendente</span></td>
-                                    <td>
-                                        <button class="btn btn-success btn-sm">Confirmar</button>
-                                        <button class="btn btn-danger btn-sm">Cancelar</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>João Silva</td>
-                                    <td>Corte Masculino</td>
-                                    <td>21/11/2025 - 14:00</td>
-                                    <td><span class="badge bg-success">Confirmado</span></td>
-                                    <td>
-                                        <button class="btn btn-secondary btn-sm">Detalhes</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                `;
-                    break;
-
-                case "clientes":
-                    html = `
-                    <h3 class="mb-4 fade-in">Clientes</h3>
-
-                    <div class="table-responsive fade-in">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Nome</th>
-                                    <th>Telefone</th>
-                                    <th>Último Serviço</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Aline Fernandes</td>
-                                    <td>(11) 99822-1234</td>
-                                    <td>Corte + Escova</td>
-                                </tr>
-                                <tr>
-                                    <td>Bruno Santos</td>
-                                    <td>(11) 99213-4432</td>
-                                    <td>Barba</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                `;
-                    break;
-
-                case "config":
-                    html = `
-                    <h3 class="mb-4 fade-in">Configurações</h3>
-                    <p class="fade-in">Configurações gerais do salão, horários, usuários e mais.</p>
-                `;
-                    break;
-
-                default:
-                    html = document.getElementById("mainPage").innerHTML;
-            }
-
-            document.getElementById("content").innerHTML = `<div id="mainPage">${html}</div>`;
-        }
     </script>
 
 </body>
